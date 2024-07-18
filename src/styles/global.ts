@@ -26,4 +26,31 @@ export const GlobalStyles = createGlobalStyle`
     font-weight: 400;
     font-size: 1rem;
   }
+
+  h1 {
+    color: ${(props) => props.theme.colors.title};
+    font-size: 1.5rem;
+    line-height: 1.3;
+  }
+
+  a {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    color: ${(props) => props.theme.colors.brand};
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-decoration: none;
+    text-transform: uppercase;
+
+    svg {
+      height: 0.75rem;
+      width: 0.75rem;
+    }
+  }
+
+  a:hover {
+    border-bottom: 1px solid ${(props) => props.theme.colors.brand};
+  }
 `

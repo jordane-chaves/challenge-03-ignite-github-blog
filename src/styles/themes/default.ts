@@ -12,4 +12,11 @@ export const defaultTheme = {
     subtitle: '#c4d3e3',
     title: '#e6edf3',
   },
+  screens: {
+    sm: '640px',
+    md: '768px',
+    lg: '1024px',
+    xl: '1280px',
+    '2xl': '1536px',
+  },
 } as const
