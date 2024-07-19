@@ -11,7 +11,7 @@ export const GlobalStyles = createGlobalStyle`
   
   :focus {
     outline: 0;
-    box-shadow: 0 0 0 2px black;
+    box-shadow: 0 0 0 2px ${(props) => props.theme.colors.brand};
   }
 
   body {
@@ -34,6 +34,8 @@ export const GlobalStyles = createGlobalStyle`
   }
 
   a {
+    border-radius: 2px;
+
     display: flex;
     align-items: center;
     gap: 0.5rem;

@@ -5,7 +5,7 @@ import {
   FaUserGroup,
 } from 'react-icons/fa6'
 
-import { TitleSection } from '../title-section'
+import { TitleSection } from '../../../../components/title-section'
 import {
   ProfileContainer,
   ProfileHeader,
@@ -22,7 +22,11 @@ export function Profile() {
         <div>
           <ProfileHeader>
             <h1>Jordane Chaves</h1>
-            <a href="https://www.github.com/jordane-chaves">
+            <a
+              href="https://www.github.com/jordane-chaves"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               Github <FaArrowUpRightFromSquare />
             </a>
           </ProfileHeader>
