@@ -1,4 +1,4 @@
-import { Post } from './components/post'
+import { PostCard } from './components/post-card'
 import { Profile } from './components/profile'
 import { HomeContent, Input, PostList, SearchFormContainer } from './styles'
 
@@ -19,7 +19,7 @@ export function Home() {
 
         <PostList>
           {Array.from({ length: 6 }).map((_, index) => (
-            <Post key={index} />
+            <PostCard key={index} />
           ))}
         </PostList>
       </HomeContent>

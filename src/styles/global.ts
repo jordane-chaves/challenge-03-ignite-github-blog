@@ -35,6 +35,7 @@ export const GlobalStyles = createGlobalStyle`
 
   a {
     border-radius: 2px;
+    border-bottom: 1px solid transparent;
 
     display: flex;
     align-items: center;

@@ -11,6 +11,12 @@ export const defaultTheme = {
     text: '#afc1d4',
     subtitle: '#c4d3e3',
     title: '#e6edf3',
+    code: {
+      base: '#d5dce3',
+      keyword: '#80abd6',
+      number: '#6ad445',
+      comment: '#4f6173',
+    },
   },
   screens: {
     sm: '640px',

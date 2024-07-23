@@ -1,6 +1,6 @@
 import { PostContainer, PostContent, PostHeader } from './styles'
 
-export function Post() {
+export function PostCard() {
   return (
     <PostContainer>
       <PostHeader>
