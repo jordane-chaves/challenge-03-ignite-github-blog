@@ -1,9 +1,11 @@
+import { QueryClientProvider } from '@tanstack/react-query'
 import { BrowserRouter } from 'react-router-dom'
 import { ThemeProvider } from 'styled-components'
 
-import { Router } from './router'
 import { GlobalStyles } from './styles/global'
 import { defaultTheme } from './styles/themes/default'
+import { queryClient } from './lib/react-query'
+import { Router } from './router'
 
 export function App() {
   return (
@@ -11,7 +13,9 @@ export function App() {
       <GlobalStyles />
 
       <BrowserRouter>
-        <Router />
+        <QueryClientProvider client={queryClient}>
+          <Router />
+        </QueryClientProvider>
       </BrowserRouter>
     </ThemeProvider>
   )

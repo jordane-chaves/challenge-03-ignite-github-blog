@@ -1,3 +1,4 @@
+import { useQuery } from '@tanstack/react-query'
 import {
   FaArrowUpRightFromSquare,
   FaGithub,
@@ -5,51 +6,68 @@ import {
   FaUserGroup,
 } from 'react-icons/fa6'
 
-import { TitleSection } from '../../../../components/title-section'
+import { TitleSection } from '@/components/title-section'
+import { getProfile } from '@/api/get-profile'
+
 import {
   ProfileContainer,
+  ProfileContent,
   ProfileHeader,
   ProfileInfo,
   ProfileInfoItem,
 } from './styles'
+import { ProfileSkeleton } from './skeleton'
+
+const USERNAME = 'jordane-chaves'
 
 export function Profile() {
+  const { data: profileResponse } = useQuery({
+    queryKey: ['profile'],
+    queryFn: () => getProfile(USERNAME),
+    staleTime: 1000 * 60 * 60 * 24, // 24 hours
+  })
+
   return (
     <TitleSection>
-      <ProfileContainer>
-        <img src="https://www.github.com/jordane-chaves.png" alt="" />
+      {profileResponse ? (
+        <ProfileContainer>
+          <img src={profileResponse.avatar_url} alt="" />
 
-        <div>
-          <ProfileHeader>
-            <h1>Jordane Chaves</h1>
-            <a
-              href="https://www.github.com/jordane-chaves"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Github <FaArrowUpRightFromSquare />
-            </a>
-          </ProfileHeader>
+          <ProfileContent>
+            <ProfileHeader>
+              <h1>{profileResponse.name}</h1>
+              <a
+                href={profileResponse.html_url}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Github <FaArrowUpRightFromSquare />
+              </a>
+            </ProfileHeader>
 
-          <p>
-            Tristique volutpat pulvinar vel massa, pellentesque egestas. Eu
-            viverra massa quam dignissim aenean malesuada suscipit. Nunc,
-            volutpat pulvinar vel mass.
-          </p>
+            <p>{profileResponse.bio}</p>
 
-          <ProfileInfo>
-            <ProfileInfoItem>
-              <FaGithub /> <span>jordane-chaves</span>
-            </ProfileInfoItem>
-            <ProfileInfoItem>
-              <FaBuilding /> <span>Rocketseat</span>
-            </ProfileInfoItem>
-            <ProfileInfoItem>
-              <FaUserGroup /> <span>32 seguidores</span>
-            </ProfileInfoItem>
-          </ProfileInfo>
-        </div>
-      </ProfileContainer>
+            <ProfileInfo>
+              <ProfileInfoItem>
+                <FaGithub /> <span>{profileResponse.login}</span>
+              </ProfileInfoItem>
+
+              {profileResponse.company && (
+                <ProfileInfoItem>
+                  <FaBuilding /> <span>{profileResponse.company}</span>
+                </ProfileInfoItem>
+              )}
+
+              <ProfileInfoItem>
+                <FaUserGroup />
+                <span>{profileResponse.followers} seguidores</span>
+              </ProfileInfoItem>
+            </ProfileInfo>
+          </ProfileContent>
+        </ProfileContainer>
+      ) : (
+        <ProfileSkeleton />
+      )}
     </TitleSection>
   )
 }

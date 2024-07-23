@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-import coverImage from '../../assets/cover.png'
+import coverImage from '@/assets/cover.png'
 
 export const HeaderContainer = styled.header`
   background: url(${coverImage}) no-repeat center/cover;

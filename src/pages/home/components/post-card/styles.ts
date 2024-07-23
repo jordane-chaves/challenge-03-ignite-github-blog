@@ -30,6 +30,10 @@ export const PostHeader = styled.header`
 
     margin-top: 4px;
   }
+
+  span::first-letter {
+    text-transform: uppercase;
+  }
 `
 
 export const PostContent = styled.div`

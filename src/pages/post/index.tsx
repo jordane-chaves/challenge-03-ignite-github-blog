@@ -6,8 +6,10 @@ import {
   FaGithub,
 } from 'react-icons/fa6'
 import Markdown from 'react-markdown'
+import { Link } from 'react-router-dom'
 
-import { TitleSection } from '../../components/title-section'
+import { TitleSection } from '@/components/title-section'
+
 import { Code } from './components/code'
 import {
   PostContainer,
@@ -35,9 +37,9 @@ export function Post() {
       <TitleSection>
         <PostTitleContainer>
           <header>
-            <a href="/">
+            <Link to="/">
               <FaChevronLeft /> Voltar
-            </a>
+            </Link>
 
             <a href="#" target="_blank" rel="noopener noreferrer">
               Ver no Github <FaArrowUpRightFromSquare />

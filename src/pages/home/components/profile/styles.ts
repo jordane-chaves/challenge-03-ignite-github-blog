@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-export const ProfileContainer = styled.section`
+export const ProfileContainer = styled.div`
   img {
     border-radius: 8px;
 
@@ -17,6 +17,10 @@ export const ProfileContainer = styled.section`
     display: flex;
     gap: 2rem;
   }
+`
+
+export const ProfileContent = styled.div`
+  flex: 1;
 `
 
 export const ProfileHeader = styled.header`
