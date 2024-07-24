@@ -2,14 +2,9 @@ import { formatDistanceToNow } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
 import { useNavigate } from 'react-router-dom'
 
-import { PostContainer, PostContent, PostHeader } from './styles'
+import { Post } from '@/contexts/posts'
 
-export interface Post {
-  id: string
-  title: string
-  content: string
-  publishedAt: Date
-}
+import { PostContainer, PostContent, PostHeader } from './styles'
 
 interface PostCardProps {
   post: Post

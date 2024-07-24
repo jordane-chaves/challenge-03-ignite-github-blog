@@ -1,3 +1,4 @@
+import Markdown from 'react-markdown'
 import styled from 'styled-components'
 
 export const PostContainer = styled.article`
@@ -36,7 +37,7 @@ export const PostHeader = styled.header`
   }
 `
 
-export const PostContent = styled.div`
+export const PostContent = styled(Markdown)`
   display: -webkit-box;
   line-clamp: 4;
   overflow: hidden;
