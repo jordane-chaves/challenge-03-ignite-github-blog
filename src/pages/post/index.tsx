@@ -6,9 +6,14 @@ import {
   FaGithub,
 } from 'react-icons/fa6'
 import Markdown from 'react-markdown'
-import { Link } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { formatDistanceToNow } from 'date-fns'
+import { ptBR } from 'date-fns/locale'
 
+import { getIssueDetails } from '@/api/get-issue-details'
 import { TitleSection } from '@/components/title-section'
+import { PostDetails } from '@/contexts/posts'
 
 import { Code } from './components/code'
 import {
@@ -19,19 +24,49 @@ import {
   PostTitleContainer,
 } from './styles'
 
-const fakePostMarkdown = `**Programming languages all have built-in data structures, but these often differ from one language to another.** This article attempts to list the built-in data structures available in JavaScript and what properties they have. These can be used to build other data structures. Wherever possible, comparisons with other languages are drawn.
-
-[Dynamic typing](#)
-JavaScript is a loosely typed and dynamic language. Variables in JavaScript are not directly associated with any particular value type, and any variable can be assigned (and re-assigned) values of all types:
-
-~~~js
-let foo = 42;   // foo is now a number
-foo = 'bar';    // foo is now a string
-foo = true;     // foo is now a boolean
-~~~
-`
-
 export function Post() {
+  const [post, setPost] = useState<PostDetails | null>(null)
+  const [isLoading, setIsLoading] = useState(false)
+
+  const params = useParams()
+
+  const postId = params.id
+
+  useEffect(() => {
+    async function getPostDetails() {
+      if (!postId) {
+        return
+      }
+
+      setIsLoading(true)
+
+      const response = await getIssueDetails(postId)
+
+      setPost({
+        id: response.number,
+        author: response.user.login,
+        commentsAmount: response.comments,
+        content: response.body,
+        link: response.html_url,
+        title: response.title,
+        publishedAt: response.created_at,
+      })
+
+      setIsLoading(false)
+    }
+
+    getPostDetails()
+  }, [postId])
+
+  if (isLoading || !post) {
+    return null
+  }
+
+  const publishedAtRelativeToNow = formatDistanceToNow(post.publishedAt, {
+    addSuffix: true,
+    locale: ptBR,
+  })
+
   return (
     <div>
       <TitleSection>
@@ -41,27 +76,27 @@ export function Post() {
               <FaChevronLeft /> Voltar
             </Link>
 
-            <a href="#" target="_blank" rel="noopener noreferrer">
+            <a href={post.link} target="_blank" rel="noopener noreferrer">
               Ver no Github <FaArrowUpRightFromSquare />
             </a>
           </header>
 
-          <h1>JavaScript data types and data structures</h1>
+          <h1>{post.title}</h1>
 
           <PostInfoContainer>
             <PostInfoItem>
               <FaGithub />
-              <span>cameronwll</span>
+              <span>{post.author}</span>
             </PostInfoItem>
 
             <PostInfoItem>
               <FaCalendarDay />
-              <span>Há 1 dia</span>
+              <span className="published-date">{publishedAtRelativeToNow}</span>
             </PostInfoItem>
 
             <PostInfoItem>
               <FaComment />
-              <span>5 comentários</span>
+              <span>{post.commentsAmount} comentários</span>
             </PostInfoItem>
           </PostInfoContainer>
         </PostTitleContainer>
@@ -74,7 +109,7 @@ export function Post() {
               code: (props) => <Code {...props} />,
             }}
           >
-            {fakePostMarkdown}
+            {post.content}
           </Markdown>
         </PostContent>
       </PostContainer>

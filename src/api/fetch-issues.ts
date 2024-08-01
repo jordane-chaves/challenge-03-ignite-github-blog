@@ -1,10 +1,10 @@
 import { api } from '@/lib/axios'
 
-interface Issue {
+export interface Issue {
   title: string
   body: string
-  created_at: string
   number: number
+  created_at: string
 }
 
 interface FetchIssuesResponse {

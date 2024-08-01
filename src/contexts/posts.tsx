@@ -1,15 +1,21 @@
 import { createContext, ReactNode, useEffect, useState } from 'react'
 
 import { fetchIssues } from '@/api/fetch-issues'
+import { appConfig } from '@/config/app'
 
-const USERNAME = 'jordane-chaves'
-const REPOSITORY = 'challenge-03-ignite-github-blog'
+const { REPOSITORY, USERNAME } = appConfig
 
 export interface Post {
   id: number
   title: string
   content: string
   publishedAt: string
+}
+
+export interface PostDetails extends Post {
+  commentsAmount: number
+  link: string
+  author: string
 }
 
 interface PostContextProps {

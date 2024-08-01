@@ -35,6 +35,10 @@ export const PostInfoItem = styled.div`
   span {
     color: ${(props) => props.theme.colors.span};
   }
+
+  .published-date::first-letter {
+    text-transform: uppercase;
+  }
 `
 
 export const PostContainer = styled.div`
@@ -54,10 +58,19 @@ export const PostContent = styled.main`
 
   p a {
     border: 0;
+    display: inline;
 
     font-size: 1rem;
     font-weight: 400;
     text-transform: none;
     text-decoration: underline;
+  }
+
+  ul {
+    padding-left: 1.5rem;
+  }
+
+  img {
+    max-width: 100%;
   }
 `
