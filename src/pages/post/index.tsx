@@ -1,3 +1,4 @@
+import { useQuery } from '@tanstack/react-query'
 import {
   FaArrowUpRightFromSquare,
   FaCalendarDay,
@@ -7,7 +8,6 @@ import {
 } from 'react-icons/fa6'
 import Markdown from 'react-markdown'
 import { Link, useParams } from 'react-router-dom'
-import { useEffect, useState } from 'react'
 import { formatDistanceToNow } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
 
@@ -16,6 +16,7 @@ import { TitleSection } from '@/components/title-section'
 import { PostDetails } from '@/contexts/posts'
 
 import { Code } from './components/code'
+import { PostSkeleton } from './skeleton'
 import {
   PostContainer,
   PostContent,
@@ -24,42 +25,49 @@ import {
   PostTitleContainer,
 } from './styles'
 
-export function Post() {
-  const [post, setPost] = useState<PostDetails | null>(null)
-  const [isLoading, setIsLoading] = useState(false)
+interface GetPostDetailsResponse {
+  post: PostDetails | null
+}
 
+async function getPostDetails(
+  postId?: string,
+): Promise<GetPostDetailsResponse> {
+  if (!postId) {
+    return { post: null }
+  }
+
+  const response = await getIssueDetails(postId)
+
+  const post = {
+    id: response.number,
+    author: response.user.login,
+    commentsAmount: response.comments,
+    content: response.body,
+    link: response.html_url,
+    title: response.title,
+    publishedAt: response.created_at,
+  }
+
+  return {
+    post,
+  }
+}
+
+export function Post() {
   const params = useParams()
 
   const postId = params.id
 
-  useEffect(() => {
-    async function getPostDetails() {
-      if (!postId) {
-        return
-      }
+  const { data: postResponse, isLoading: isPostLoading } = useQuery({
+    queryKey: ['post', postId],
+    queryFn: () => getPostDetails(postId),
+    staleTime: 1000 * 60 * 10, // 10 minutes
+  })
 
-      setIsLoading(true)
+  const post = postResponse?.post
 
-      const response = await getIssueDetails(postId)
-
-      setPost({
-        id: response.number,
-        author: response.user.login,
-        commentsAmount: response.comments,
-        content: response.body,
-        link: response.html_url,
-        title: response.title,
-        publishedAt: response.created_at,
-      })
-
-      setIsLoading(false)
-    }
-
-    getPostDetails()
-  }, [postId])
-
-  if (isLoading || !post) {
-    return null
+  if (isPostLoading || !post) {
+    return <PostSkeleton />
   }
 
   const publishedAtRelativeToNow = formatDistanceToNow(post.publishedAt, {

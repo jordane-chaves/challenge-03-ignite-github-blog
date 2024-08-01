@@ -2,7 +2,7 @@ import styled, { css } from 'styled-components'
 
 export interface SkeletonContainerProps {
   height: number
-  width: number
+  width?: number
 }
 
 export const SkeletonContainer = styled.span<SkeletonContainerProps>`
@@ -12,7 +12,7 @@ export const SkeletonContainer = styled.span<SkeletonContainerProps>`
   display: block;
 
   height: ${(props) => props.height}px;
-  width: ${(props) => props.width}px;
+  width: ${(props) => (!props.width ? `100%` : props.width + `px`)};
 
   animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 

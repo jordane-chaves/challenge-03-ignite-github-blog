@@ -19,7 +19,7 @@ export function ProfileSkeleton() {
         </ProfileHeader>
 
         <p>
-          <Skeleton height={48} width={600} />
+          <Skeleton height={48} />
         </p>
 
         <ProfileInfo>
