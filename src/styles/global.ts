@@ -56,4 +56,13 @@ export const GlobalStyles = createGlobalStyle`
   a:hover {
     border-bottom: 1px solid ${(props) => props.theme.colors.brand};
   }
+
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: ${(props) => props.theme.colors.border};
+    border-radius: 2px;
+  }
 `

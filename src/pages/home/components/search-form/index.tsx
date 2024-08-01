@@ -1,4 +1,5 @@
-import { ChangeEvent, useContext, useEffect, useState } from 'react'
+import { ChangeEvent, useEffect, useState } from 'react'
+import { useContextSelector } from 'use-context-selector'
 
 import { PostsContext } from '@/contexts/posts'
 import useDebounceValue from '@/hooks/use-debounce-value'
@@ -8,7 +9,12 @@ import { SearchFormContainer } from './styles'
 export function SearchForm() {
   const [search, setSearch] = useState('')
 
-  const { posts, fetchPosts } = useContext(PostsContext)
+  const { posts, fetchPosts } = useContextSelector(PostsContext, (context) => {
+    return {
+      posts: context.posts,
+      fetchPosts: context.fetchPosts,
+    }
+  })
 
   function handleSearchChange(event: ChangeEvent<HTMLInputElement>) {
     setSearch(event.target.value)

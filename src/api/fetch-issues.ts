@@ -1,4 +1,7 @@
+import { appConfig } from '@/config/app'
 import { api } from '@/lib/axios'
+
+const { REPOSITORY, USERNAME } = appConfig
 
 export interface Issue {
   title: string
@@ -12,9 +15,11 @@ interface FetchIssuesResponse {
 }
 
 export async function fetchIssues(query?: string) {
+  const queryData = [query, `repo:${USERNAME}/${REPOSITORY}`].join(' ')
+
   const response = await api.get<FetchIssuesResponse>('/search/issues', {
     params: {
-      q: query,
+      q: queryData,
     },
   })
 

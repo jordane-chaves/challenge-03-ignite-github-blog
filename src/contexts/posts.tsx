@@ -1,9 +1,7 @@
-import { createContext, ReactNode, useEffect, useState } from 'react'
+import { ReactNode, useCallback, useEffect, useState } from 'react'
+import { createContext } from 'use-context-selector'
 
 import { fetchIssues } from '@/api/fetch-issues'
-import { appConfig } from '@/config/app'
-
-const { REPOSITORY, USERNAME } = appConfig
 
 export interface Post {
   id: number
@@ -32,9 +30,8 @@ interface PostsContextProviderProps {
 export function PostsContextProvider({ children }: PostsContextProviderProps) {
   const [posts, setPosts] = useState<Post[]>([])
 
-  async function fetchPosts(query?: string) {
-    const queryData = [query, `repo:${USERNAME}/${REPOSITORY}`].join(' ')
-    const response = await fetchIssues(queryData)
+  const fetchPosts = useCallback(async (query?: string) => {
+    const response = await fetchIssues(query)
 
     setPosts(
       response.items.map((item) => {
@@ -46,11 +43,11 @@ export function PostsContextProvider({ children }: PostsContextProviderProps) {
         }
       }),
     )
-  }
+  }, [])
 
   useEffect(() => {
     fetchPosts()
-  }, [])
+  }, [fetchPosts])
 
   return (
     <PostsContext.Provider value={{ posts, fetchPosts }}>
